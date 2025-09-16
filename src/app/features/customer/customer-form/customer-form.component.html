@@ -1,0 +1,24 @@
+<mat-card-content class="p-0">
+  <form [formGroup]="customerForm" (ngSubmit)="onSubmit()" class="flex flex-col gap-1">
+    <mat-form-field class="w-full lg:w-1/2">
+      <mat-label>Master Client ID:</mat-label>
+      <input matInput formControlName="clientId" placeholder="Enter Master Client ID">
+    </mat-form-field>
+
+    <mat-form-field class="w-full lg:w-1/2">
+      <mat-label>Master Client Name:</mat-label>
+      <input matInput formControlName="name" placeholder="Enter Master Client Name">
+    </mat-form-field>
+
+
+    <!-- Buttons-->
+    <div class="flex gap-4">
+      <button mat-raised-button color="primary" type="submit" [disabled]="isSearchDisabled">
+        Search
+      </button>
+      <button mat-stroked-button type="button" (click)="clearAll()">
+        Clear
+      </button>
+    </div>
+  </form>
+</mat-card-content>

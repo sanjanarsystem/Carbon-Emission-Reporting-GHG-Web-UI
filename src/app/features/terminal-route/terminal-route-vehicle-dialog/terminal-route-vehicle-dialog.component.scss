@@ -1,0 +1,144 @@
+/* =============================
+   Container & Card Styling
+============================= */
+.vehicle-data-wrapper {
+  padding: 0;
+  position: relative;
+}
+
+.vehicle-data-card {
+  margin: 0.5rem;
+  padding: 0.25rem;
+  position: relative;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+/* =============================
+   Headings
+============================= */
+h2.dialog-title {
+  background-color: #3f51b5;
+  color: white;
+  margin: 0;
+  padding: 0 0.5rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  line-height: 1.2;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 2rem;
+}
+
+/* =============================
+   Dialog Content & Actions
+============================= */
+.dialog-content {
+  padding: 0.25rem;
+  min-width: 20rem;
+  background-color: #fafafa;
+}
+
+.blur-content {
+  filter: blur(0.125rem);
+  pointer-events: none;
+  user-select: none;
+}
+
+.spinner-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(255, 255, 255, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 10;
+}
+
+.mat-mdc-dialog-content {
+  max-height: 100%;
+}
+
+/* =============================
+   Table
+============================= */
+.table-scroll-container {
+  overflow-x: auto;
+}
+
+table.mat-elevation-z1 {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th.mat-header-cell,
+td.mat-cell {
+  text-align: center;
+  padding: 0.25rem 0.5rem;
+  font-size: 0.75rem;
+}
+
+tr.no-data-row td {
+  text-align: center;
+  font-style: italic;
+  color: #777;
+  font-size: 0.6875rem;
+}
+
+/* Default (desktop & tablet, >25rem) */
+.toolbar-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  flex-wrap: nowrap;
+}
+
+.toolbar-row .search-field {
+  flex: 1 1 300px;
+  /* prefers 300px but can shrink */
+  min-width: 100px;
+  /* don’t shrink below this */
+  max-width: 95%;
+  /* don’t grow past container */
+}
+
+.toolbar-row .toolbar-button {
+  flex: 0 0 auto;
+  font-size: 0.75rem;
+  width: auto;
+  padding: 5px 10px;
+}
+
+.toolbar-row .search-field {
+  max-width: 300px;
+}
+
+/* ≤ 25rem → stack vertically */
+@media (max-width: 25rem) {
+  .toolbar-row {
+    flex-wrap: wrap;
+    /* allow wrapping */
+    justify-content: center;
+  }
+
+  .toolbar-row .search-field,
+  .toolbar-row .toolbar-button {
+    flex: 1 1 100%;
+    /* full width */
+    width: 100%;
+  }
+}
+
+td {
+  font-size: 0.7rem !important;
+  font-weight: 500 !important;
+}
+
+.mat-icon-white {
+  color: white !important;
+}

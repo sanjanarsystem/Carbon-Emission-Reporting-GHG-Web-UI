@@ -1,0 +1,34 @@
+<main id="file-upload" class="bg-white p-4">
+
+  <div class="grid min-h-full place-items-center px-6 py-10 lg:px-8" (dragover)="onDragOver($event)"
+    (drop)="onDrop($event)">
+    <p>
+      <button mat-raised-button color="primary" (click)="fileInput.click()">Select File to Upload</button>
+      <input type="file" #fileInput (change)="onFileSelected($event)" hidden>
+    </p>
+
+    <p class="mt-6 text-lg font-medium text-pretty text-gray-500 sm:text-xl/8">Or Drag and Drop files here</p>
+
+    <mat-list>
+      @for (file of files; track file; let i = $index) {
+      <mat-list-item>
+        <div class="list-content">{{file.name}}</div>
+        <button mat-icon-button (click)="removeFile(i)" matTooltip="Delete">
+          <mat-icon>delete</mat-icon>
+        </button>
+      </mat-list-item>
+      }
+    </mat-list>
+  </div>
+
+  <div class="mb-4">
+    <button mat-raised-button color="secondary" [disabled]="files.length === 0 || uploading"
+      (click)="UploadLargeFile()">
+      Upload File into S3 Bucket
+    </button>
+  </div>
+
+  <div *ngIf="uploading && ( progress < 100 )">
+    <mat-progress-bar mode="determinate" value="0"></mat-progress-bar>
+  </div>
+</main>

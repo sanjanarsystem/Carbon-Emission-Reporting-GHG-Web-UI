@@ -1,0 +1,44 @@
+<section class="container mx-auto min-h-screen p-5">
+  <!-- Header content -->
+  <header id="header" class="bg-white p-3 flex justify-between mb-2">
+    <!-- Top Header with Logo and Title -->
+    <div class="flex items-center justify-between">
+      <!-- Logo aligned to the left -->
+      <div class="flex items-center">
+        <img src="assets/logo.svg" alt="Purolator Logo" class="w-auto" />
+      </div>
+    </div>
+
+    <!-- Navigation Menu -->
+    <nav class="flex items-center space-x-6">
+      <button mat-button routerLink="/upload">File Upload</button>
+
+      <button mat-button [matMenuTriggerFor]="manageCustomers">Manage Customers</button>
+      <mat-menu #manageCustomers="matMenu" class="mt-2">
+        <button mat-menu-item [routerLink]="['/customers', 'active']">
+          Active Customer List
+        </button>
+        <button mat-menu-item [routerLink]="['/customers', 'enable']">
+          Enable Customer for Reporting
+        </button>
+      </mat-menu>
+
+      <button mat-button routerLink="/terminal-route">Terminal Route Averages</button>
+    </nav>
+
+    <!-- User info aligned to the right -->
+    <div class="flex items-center space-x-4">
+      <span *ngIf="isAdminUser" class="bg-yellow-500 text-black px-3 py-1 rounded-full text-sm font-semibold">
+        Admin
+      </span>
+      <div class="text-sm">
+        <span class="text-gray-300 invisible">Welcome, User</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main content -->
+  <main class="min-h-screen">
+    <router-outlet />
+  </main>
+</section>

@@ -1,0 +1,64 @@
+/* add-user-dialog.component.css */
+.dialog-title {
+  background-color: #3f51b5;
+  color: white;
+  padding: 16px 24px;
+  margin: 0;
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
+}
+
+.dialog-content {
+  margin-top: 30px;
+  padding: 20px 24px;
+  min-width: 400px;
+}
+
+.user-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.form-field {
+  width: 100%;
+}
+
+mat-chip-row {
+  margin-right: 4px;
+  background-color: #e0e0e0;
+}
+
+.error-message {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #f44336;
+  padding: 8px;
+  background-color: #ffebee;
+  border-radius: 4px;
+  margin-top: 5px;
+}
+
+.error-message mat-icon {
+  font-size: 20px;
+  width: 20px;
+  height: 20px;
+}
+
+.dialog-actions {
+  padding: 8px 24px 16px;
+  border-top: 1px solid #e0e0e0;
+}
+
+.submit-button {
+  min-width: 100px;
+}
+.user-form{
+  margin-top: 5px;
+}
+
+/* Adjust spinner position */
+mat-spinner {
+  margin: 0 auto;
+}

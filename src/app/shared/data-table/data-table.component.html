@@ -1,0 +1,81 @@
+<table mat-table [dataSource]="dataSource" class="mat-elevation-z8 w-full" matSort>
+
+  <!-- Checkbox Column -->
+  @if(isCheckbox) {
+  <ng-container matColumnDef="select">
+    <th mat-header-cell *matHeaderCellDef>
+      <mat-checkbox (change)="toggleAllRows()" [checked]="isAllSelected()"
+        [indeterminate]="selection.hasValue() && !isAllSelected()">
+      </mat-checkbox>
+    </th>
+    <td mat-cell *matCellDef="let row">
+      <mat-checkbox (click)="$event.stopPropagation()" (change)="$event ? selection.toggle(row) : null"
+        [checked]="selection.isSelected(row)">
+      </mat-checkbox>
+    </td>
+  </ng-container>
+  }
+
+  <!-- Dynamic Data Columns -->
+  @for (col of displayedColumns; track col) {
+  <ng-container [matColumnDef]="col">
+    <th mat-header-cell *matHeaderCellDef [mat-sort-header]="isSortingEnabled ? col : ''"
+      [class.disable-sorting]="!isSortingEnabled">
+
+      <div class="flex flex-col">
+        <div class="header-label">{{ columnLabels[col] || col }}</div>
+        @if(isSearchEnabled) {
+        <input #filterInput matInput placeholder="Search {{ columnLabels[col] || col }}" class="text-xs px-2 py-1 border border-gray-300 rounded-sm 
+          focus:outline-none focus:ring-1 
+          focus:ring-blue-500 
+          focus:border-blue-500 transition w-full" (click)="$event.stopPropagation()"
+          (keyup)="applyFilter(col, filterInput.value)" />
+        }
+      </div>
+    </th>
+
+    <td mat-cell *matCellDef="let element">{{ element[col] }}</td>
+  </ng-container>
+  }
+
+  <!--TODO: Need to incorporate Actions either Edit/Delete or Navigating to different screen will be handled via actions link on-->
+
+  <!-- Action Column -->
+  <!-- <ng-container *ngIf="actions.length" matColumnDef="actions">
+    <th mat-header-cell *matHeaderCellDef> Actions </th>
+    <td mat-cell *matCellDef="let row">
+      <button *ngFor="let act of actions" mat-icon-button color="primary" (click)="onAction(act, row)">
+        <mat-icon>{{ act }}</mat-icon>
+      </button>
+    </td>
+  </ng-container> -->
+  @if(isactions) {
+  <ng-container *ngIf="actions.length" matColumnDef="actions">
+    <th mat-header-cell *matHeaderCellDef> Actions </th>
+    <td mat-cell *matCellDef="let row">
+      <button *ngFor="let act of actions" mat-icon-button color="primary" (click)="onAction(act, row)">
+        <mat-icon>{{ act }}</mat-icon>
+      </button>
+    </td>
+  </ng-container>
+}
+
+
+  <!-- Header & Row Definitions -->
+  <tr mat-header-row *matHeaderRowDef="allColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: allColumns"></tr>
+</table>
+
+@if(dataSource.filteredData.length === 0 && dataSource.data.length > 0) {
+<span class="flex justify-center p-4">No search results found.</span>
+}
+
+@if(isLoading) {
+<span class="flex justify-center p-4">Loading data...</span>
+} @else if(!(dataSource.data.length > 0)) {
+<span class="flex justify-center p-4">No Records available.</span>
+}
+
+<ng-container *ngIf="dataSource.data.length > 0 && !isLoading">
+  <mat-paginator [pageSizeOptions]="[5, 10, 20]" [pageSize]="5" showFirstLastButtons></mat-paginator>
+</ng-container>

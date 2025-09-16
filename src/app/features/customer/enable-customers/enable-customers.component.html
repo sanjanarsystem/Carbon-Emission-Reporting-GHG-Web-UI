@@ -1,0 +1,28 @@
+<main id="enable-customers" class="grid min-h-full">
+
+  <mat-card class="form-card bg-white p-3 mb-2">
+    <mat-card-header class="p-0 mb-2">
+      <mat-card-title>Enable Customer for Report</mat-card-title>
+    </mat-card-header>
+
+    <puro-customer-form [isDisabledCustomers]="true" (customerList)="receiveData($event)"></puro-customer-form>
+
+  </mat-card>
+
+
+  @if (customerList$ | async; as customerList) {
+  <mat-card class="form-card bg-white p-3">
+    <mat-card-content class="p-0">
+      <div class="flex mb-4"><button mat-raised-button color="primary"
+          (click)="onEnableConfirm(dataTable.selection.selected)" [disabled]="!dataTable.selection.hasValue()">Enable
+          Selected Clients</button></div>
+
+      <puro-data-table #dataTable [displayedColumns]="columns" [columnLabels]="columnLabels" [data]="customerList"
+        [isCheckbox]="true" [isSortingEnabled]="true" [isSearchEnabled]="true" [isLoading]="isLoading">
+      </puro-data-table>
+
+    </mat-card-content>
+  </mat-card>
+  }
+
+</main>

@@ -1,0 +1,111 @@
+<h2 class="dialog-title" mat-dialog-title>
+  Terminal Route Vehicle Average
+  <button mat-icon-button (click)="dialogRef.close()" aria-label="Close dialog">
+    <mat-icon class="mat-icon-white">close</mat-icon>
+  </button>
+</h2>
+
+<mat-dialog-content class="vehicle-data-wrapper">
+  <div class="vehicle-data-card">
+    <div class="dialog-content" [class.blur-content]="isSaving || isLoading">
+      <!-- Toolbar -->
+      <div class="toolbar-row">
+        <mat-form-field appearance="outline" class="search-field small" floatLabel="auto">
+          <mat-label>Search Vehicles</mat-label>
+          <mat-icon matPrefix>search</mat-icon>
+          <input matInput (input)="applyFilter($event)" placeholder="Search by route, date, fuel type…" />
+        </mat-form-field>
+
+        <button mat-flat-button color="primary" [disabled]="pendingChanges.length === 0 || isSaving"
+          (click)="saveChanges()" class="toolbar-button">
+          <span *ngIf="!isSaving">Update & Recalculate</span>
+          <span *ngIf="isSaving">Recalculating…</span>
+        </button>
+      </div>
+
+      <!-- Table -->
+      <div class="table-scroll-container">
+        <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z1">
+          <!-- Columns -->
+
+          <ng-container matColumnDef="timecard_date">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Timecard Date</th>
+            <td mat-cell *matCellDef="let vehicle">{{ vehicle.timecard_date }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="terminal_id">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Terminal Number</th>
+            <td mat-cell *matCellDef="let vehicle">{{ vehicle.terminal_id }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="route_number">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Route Number</th>
+            <td mat-cell *matCellDef="let vehicle">{{ vehicle.route_number }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="pcl_agent_flag">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>PCL Agent Flag</th>
+            <td mat-cell *matCellDef="let vehicle">{{ vehicle.pcl_agent_flag }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="vehicle_id">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Vehicle Id</th>
+            <td mat-cell *matCellDef="let vehicle">{{ vehicle.vehicle_id }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="asset_number">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Asset Number</th>
+            <td mat-cell *matCellDef="let vehicle">{{ vehicle.asset_number }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="primary_fuel_type">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Fuel Type</th>
+            <td mat-cell *matCellDef="let vehicle">{{ vehicle.primary_fuel_type }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="trip_date">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Trip Date</th>
+            <td mat-cell *matCellDef="let vehicle">{{ vehicle.trip_date }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="total_fuel_adjusted">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Total Fuel Adjusted</th>
+            <td mat-cell *matCellDef="let vehicle">{{ vehicle.total_fuel_adjusted }} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="energy_used_kwh">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Energy Used kWh</th>
+            <td mat-cell *matCellDef="let vehicle">{{ vehicle.energy_used_kwh }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="skip_calculation">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Skip Calculation</th>
+            <td mat-cell *matCellDef="let vehicle">
+              <mat-checkbox [(ngModel)]="vehicle.skip_calculation" (change)="onCheckboxChange(vehicle)"
+                [disabled]="isSaving"></mat-checkbox>
+            </td>
+          </ng-container>
+
+          <!-- Rows -->
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns" class="table-row"></tr>
+
+          <tr class="mat-row no-data-row" *matNoDataRow>
+            <td class="mat-cell" [attr.colspan]="displayedColumns.length">
+              No data found.
+            </td>
+          </tr>
+        </table>
+      </div>
+
+      <!-- Paginator -->
+      <mat-paginator [pageSize]="10" [pageSizeOptions]="[5, 10, 20]" [pageIndex]="0" showFirstLastButtons>
+      </mat-paginator>
+    </div>
+
+    <!-- Full card spinner -->
+    <div class="spinner-overlay" *ngIf="isSaving || isLoading">
+      <mat-progress-spinner mode="indeterminate" diameter="40" strokeWidth="4"></mat-progress-spinner>
+    </div>
+  </div>
+</mat-dialog-content>

@@ -1,0 +1,99 @@
+<main id="terminal-route" class="grid min-h-full">
+  <mat-card class="form-card bg-white p-3 mb-2">
+    <mat-card-header class="p-0 mb-2 flex flex-col w-full">
+      <div class="w-full">
+        <mat-card-title>Terminal Route Master</mat-card-title>
+      </div>
+
+      <div class="flex items-center justify-between w-full mt-1">
+        <mat-card-subtitle>Terminal Route Average</mat-card-subtitle>
+        <button mat-flat-button color="primary" [disabled]="!hasChanges" (click)="onSave()">
+          Update and Recalculate
+        </button>
+      </div>
+    </mat-card-header>
+
+    <table mat-table [dataSource]="dataSource" multiTemplateDataRows matSort class="master-table mat-elevation-z1">
+      <!-- Expand Button -->
+      <ng-container matColumnDef="expand">
+        <th mat-header-cell *matHeaderCellDef></th>
+        <td mat-cell *matCellDef="let element">
+          <button mat-icon-button [class.expanded]="isExpanded(element)"
+            (click)="toggle(element); $event.stopPropagation()">
+            <mat-icon>
+              {{ isExpanded(element) ? "keyboard_arrow_down" : "chevron_right" }}
+            </mat-icon>
+          </button>
+        </td>
+      </ng-container>
+
+      <ng-container *ngFor="let column of displayedColumns" [matColumnDef]="column">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ columnHeaderMap[column] }}</th>
+        <td mat-cell *matCellDef="let element">{{ element[column] }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="expandedDetail">
+        <td mat-cell *matCellDef="let element" [attr.colspan]="columnsToDisplayWithExpand.length">
+          <div *ngIf="isExpanded(element)" class="expanded-detail-container">
+            <h2 style="font-weight: 500;font-size:1rem">
+              Terminal Route Fuel Type Averages
+            </h2>
+
+            <table mat-table [dataSource]="element.fuelTypeDataSource" matSort class="detail-table">
+              <ng-container *ngFor="let col of fuelTypeColumns" [matColumnDef]="col">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                  {{ columnHeaderMap[col] || col }}
+                </th>
+                <td mat-cell *matCellDef="let fta" allign="center">
+                  <ng-container [ngSwitch]="col">
+                    <ng-container *ngSwitchCase="'actions'">
+                      <div class="actions-container">
+                        <button mat-icon-button matTooltipPosition="left" matTooltip="View details"
+                          (click)="openVehicleDialog(fta.id)" class="view-button-icon">
+                          <mat-icon style="color:blue">visibility</mat-icon>
+                        </button>
+                      </div>
+                    </ng-container>
+
+                    <ng-container *ngSwitchCase="'override'">
+                      <mat-checkbox [(ngModel)]="fta.override" (change)="onOverrideChange(fta, element)"
+                        [disabled]="isOverrideDisabled(element, fta)"></mat-checkbox>
+                    </ng-container>
+
+                    <ng-container *ngSwitchCase="'reasonForChange'">
+                      <div class="reason-container">
+                        <input matInput [(ngModel)]="fta.reasonForChange" [disabled]="!fta._reasonEnabled"
+                          placeholder="Enter reason" [required]="fta._reasonEnabled" [ngClass]="{
+                          'invalid-input': fta._reasonEnabled && !fta.reasonForChange
+                        }" class="reason-input" />
+                      </div>
+                    </ng-container>
+
+                    <ng-container *ngSwitchDefault>
+                      {{ fta[col] }}
+                    </ng-container>
+                  </ng-container>
+                </td>
+              </ng-container>
+
+              <tr mat-header-row *matHeaderRowDef="fuelTypeColumns"></tr>
+              <tr mat-row *matRowDef="let row; columns: fuelTypeColumns"></tr>
+            </table>
+
+            <div *ngIf="element.terminalRouteFuelTypeAverages.length === 0">
+              No data available
+            </div>
+          </div>
+        </td>
+      </ng-container>
+
+
+      <tr mat-header-row *matHeaderRowDef="columnsToDisplayWithExpand"></tr>
+      <tr mat-row *matRowDef="let element; columns: columnsToDisplayWithExpand"></tr>
+      <tr mat-row *matRowDef="let element; columns: ['expandedDetail']" class="example-detail-row"></tr>
+    </table>
+
+    <mat-paginator [pageSize]="10" [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+
+  </mat-card>
+</main>

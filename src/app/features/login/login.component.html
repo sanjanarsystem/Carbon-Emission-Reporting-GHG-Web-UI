@@ -1,0 +1,13 @@
+<div class="centered-container">
+
+  <!-- Spinner -->
+  <div *ngIf="isLoading" class="spinner"></div>
+
+  <!-- Error -->
+  <div *ngIf="error && !isLoading" class="message-box">
+    <h2>Login Failed</h2>
+    <p>{{ error }}</p>
+    <button (click)="loginWithOkta()"> Retry Login</button>
+  </div>
+
+</div>

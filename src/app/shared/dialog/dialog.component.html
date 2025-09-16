@@ -1,0 +1,40 @@
+<h2 mat-dialog-title class="flex justify-center pt-2 mb-0 pb-0">{{ dialogData.title }}</h2>
+
+<!-- Subtitle -->
+<div class="flex justify-center text-sm mb-2">
+  {{ dialogData.subtitle }}
+</div>
+
+<mat-dialog-content class="flex flex-col text-sm mb-2">
+  <!-- Display client list if data is provided -->
+  @if (dialogData.data && dialogData.data.length > 0) {
+    <div class="mb-4">
+      <h4 class="font-semibold mb-2">Selected Clients:</h4>
+      <div class="max-h-40 overflow-y-auto border border-gray-200 rounded p-2">
+        @for (customer of dialogData.data; track customer.master_client_id) {
+          <div class="py-1 border-b border-gray-100 last:border-b-0">
+            <strong>{{ customer.master_client_id }}</strong> - {{ customer.master_client_name }}
+          </div>
+        }
+      </div>
+    </div>
+  }
+  
+  <!-- General message -->
+  <p class="text-center">{{ dialogData.message }}</p>
+</mat-dialog-content>
+
+<mat-dialog-actions class="flex justify-center gap-2">
+  @if (!dialogData.hideConfirm) {
+    <button mat-raised-button color="warn" (click)="onConfirm()">
+      <mat-icon>check</mat-icon>
+      {{ dialogData.confirmText || 'Confirm' }}
+    </button>
+  }
+  @if (!dialogData.hideCancel) {
+    <button mat-button (click)="onCancel()">
+      <mat-icon>close</mat-icon>
+      {{ dialogData.cancelText || 'Cancel' }}
+    </button>
+  }
+</mat-dialog-actions>
