@@ -6,7 +6,7 @@ import {
   isFakeMousedownFromScreenReader,
   isFakeTouchstartFromScreenReader,
   normalizePassiveListenerOptions
-} from "./chunk-WDIN6BTO.js";
+} from "./chunk-WAMEECM5.js";
 import {
   ANIMATION_MODULE_TYPE,
   ChangeDetectionStrategy,
@@ -610,4 +610,4 @@ export {
   MAT_RIPPLE_GLOBAL_OPTIONS,
   MatRipple
 };
-//# sourceMappingURL=chunk-LBPYB7SZ.js.map
+//# sourceMappingURL=chunk-CNRT66EW.js.map

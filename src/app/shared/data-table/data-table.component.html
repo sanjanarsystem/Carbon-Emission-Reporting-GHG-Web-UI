@@ -56,7 +56,7 @@
     <th mat-header-cell *matHeaderCellDef> Actions </th>
     <td mat-cell *matCellDef="let row">
       <button *ngFor="let act of actions" mat-icon-button color="primary" (click)="onAction(act, row)">
-        <mat-icon>{{ act }}</mat-icon>
+        <mat-icon style="color:blue">{{ act }}</mat-icon>
       </button>
     </td>
   </ng-container>
