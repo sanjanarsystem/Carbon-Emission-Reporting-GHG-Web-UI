@@ -55,7 +55,6 @@ export class DataTableComponent<T> implements OnInit {
       this.filterValues[column] = value.trim().toLowerCase();
       this.dataSource.filter = JSON.stringify(this.filterValues);
     });
-console.log(this.isCheckbox)
 
   }
 
@@ -82,8 +81,10 @@ console.log(this.isCheckbox)
     this.updateDataSource();
     this.dataSource.data = this.data || [];
 
-  this.allColumns =
-  this.isCheckbox
+      // this.allColumns =  this.isCheckbox
+    //     ? ['select', ...this.displayedColumns,'actions']
+    //     : [...this.displayedColumns];
+     this.allColumns = this.isCheckbox
     ? ['select', ...this.displayedColumns, ...(this.isactions ? ['actions'] : [])]
     : [...this.displayedColumns, ...(this.isactions ? ['actions'] : [])];
 
@@ -100,12 +101,11 @@ console.log(this.isCheckbox)
   private updateDataSource(): void {
     this.dataSource.data = this.data || [];
 
-    this.allColumns =
-      // this.isCheckbox
-      //   ? ['select', ...this.displayedColumns,'actions']
-      //   : [...this.displayedColumns];
-      this.allColumns =
-  this.isCheckbox
+    // this.allColumns =
+    //   this.isCheckbox
+    //     ? ['select', ...this.displayedColumns,'actions']
+    //     : [...this.displayedColumns];
+      this.allColumns = this.isCheckbox
     ? ['select', ...this.displayedColumns, ...(this.isactions ? ['actions'] : [])]
     : [...this.displayedColumns, ...(this.isactions ? ['actions'] : [])];
 
