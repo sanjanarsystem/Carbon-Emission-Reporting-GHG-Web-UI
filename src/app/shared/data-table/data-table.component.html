@@ -51,15 +51,31 @@
   </ng-container> -->
   
   <!-- Action Column -->
-  @if(isactions) {
-  <ng-container *ngIf="actions.length" matColumnDef="actions">
+  @if(isActions) {
+  <ng-container matColumnDef="actions">
     <th mat-header-cell *matHeaderCellDef> Actions </th>
     <td mat-cell *matCellDef="let row">
-      <button *ngFor="let act of actions" mat-icon-button color="primary" (click)="onAction(act, row)">
-        <mat-icon style="color:blue">{{ act }}</mat-icon>
-      </button>
+      @for (action of actions; track action) {
+        <button mat-icon-button color="primary" (click)="onAction(action, row)">
+          <mat-icon class="text-blue-700">{{ action }}</mat-icon>
+        </button>
+      }
+
+
     </td>
   </ng-container>
+}
+
+@if(isDetails) {
+<ng-container matColumnDef="viewdetails">
+  <th mat-header-cell *matHeaderCellDef> View Details </th>
+  <td mat-cell *matCellDef="let row">
+  <a href="javascript:void(0)" class="text-blue-700" (click)="onViewClick(row)">
+    {{ viewdetails }}
+  </a>
+  </td>
+</ng-container>
+
 }
 
 

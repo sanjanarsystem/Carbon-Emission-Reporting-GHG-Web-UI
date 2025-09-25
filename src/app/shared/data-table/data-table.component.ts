@@ -1,4 +1,4 @@
-import { Component, Input, ViewChild, OnInit } from '@angular/core';
+import { Component, Input, ViewChild, OnInit,Output,EventEmitter } from '@angular/core';
 import { SelectionModel } from '@angular/cdk/collections';
 import { CommonModule } from '@angular/common';
 import { debounceTime, Subject } from 'rxjs';
@@ -8,6 +8,7 @@ import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatIconModule } from '@angular/material/icon';
+import { Customer } from '../../model/customers';
 
 const APP_MATERIAL_IMPORTS = [
   MatTableModule,
@@ -32,11 +33,12 @@ export class DataTableComponent<T> implements OnInit {
   @Input() isSortingEnabled: boolean = false; // Whether to allow row selection
   @Input() isSearchEnabled: boolean = false; // Whether to allow searching/filtering
   @Input() isLoading: boolean = false; // Whether data is currently loading
-  @Input() isactions: boolean = false; 
-
+  @Input() isActions: boolean = false; 
+  @Input() isDetails: boolean = false; 
   // @Input() actions: string[] = []; // e.g. ['edit', 'delete', 'view']
   // @Output() actionClick = new EventEmitter<{ action: string, row: T }>();
-
+  @Output() viewClicked = new EventEmitter<any>();
+  @Input() viewdetails: string[] = [];
   @Input() actions: string[] = []; // e.g. ['edit', 'delete', 'view']
   dataSource = new MatTableDataSource<T>([]);
   selection = new SelectionModel<T>(true, []);
@@ -55,7 +57,6 @@ export class DataTableComponent<T> implements OnInit {
       this.filterValues[column] = value.trim().toLowerCase();
       this.dataSource.filter = JSON.stringify(this.filterValues);
     });
-
   }
 
   ngAfterViewInit() {
@@ -84,9 +85,13 @@ export class DataTableComponent<T> implements OnInit {
       // this.allColumns =  this.isCheckbox
     //     ? ['select', ...this.displayedColumns,'actions']
     //     : [...this.displayedColumns];
-     this.allColumns = this.isCheckbox
-    ? ['select', ...this.displayedColumns, ...(this.isactions ? ['actions'] : [])]
-    : [...this.displayedColumns, ...(this.isactions ? ['actions'] : [])];
+    //  this.allColumns = this.isCheckbox
+    // ? ['select', ...this.displayedColumns, ...(this.isActions ? ['actions'] : [])]
+    // : [...this.displayedColumns, ...(this.isActions ? ['actions'] : [])];
+
+  this.allColumns = this.isCheckbox
+  ? ['select', ...this.displayedColumns, ...(this.isDetails ? ['viewdetails'] : []), ...(this.isActions ? ['actions'] : [])]
+  : [...this.displayedColumns, ...(this.isDetails ? ['viewdetails'] : []), ...(this.isActions ? ['actions'] : [])];
 
 
     // Reset paginator to first page when new data is loaded
@@ -105,10 +110,10 @@ export class DataTableComponent<T> implements OnInit {
     //   this.isCheckbox
     //     ? ['select', ...this.displayedColumns,'actions']
     //     : [...this.displayedColumns];
-      this.allColumns = this.isCheckbox
-    ? ['select', ...this.displayedColumns, ...(this.isactions ? ['actions'] : [])]
-    : [...this.displayedColumns, ...(this.isactions ? ['actions'] : [])];
 
+    this.allColumns = this.isCheckbox
+      ? ['select', ...this.displayedColumns, ...(this.isDetails ? ['viewdetails'] : []), ...(this.isActions ? ['actions'] : [])]
+      : [...this.displayedColumns, ...(this.isDetails ? ['viewdetails'] : []), ...(this.isActions ? ['actions'] : [])];
 
     // Use setTimeout to ensure change detection cycle completes
     setTimeout(() => {
@@ -153,7 +158,13 @@ export class DataTableComponent<T> implements OnInit {
     this.updateDataSource();
   }
 
-  // onAction(action: string, row: T) {
-  //   this.actionClick.emit({ action, row });
-  // }
+  onViewClick(row: Customer) {
+    this.viewClicked.emit(row);
+  }
+
+
+  onAction(action: string, row: T) {
+    console.log(action)
+    //this.actionClick.emit({ action, row });
+  }
 }

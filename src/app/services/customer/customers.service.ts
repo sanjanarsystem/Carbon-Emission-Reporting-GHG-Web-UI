@@ -61,25 +61,26 @@ export class CustomersService {
     if (formValues.name && formValues.name.trim()) {
       params = params.set('master_client_name', formValues.name.trim());
     }
+    
+    return this.http.get<Customer[]>(url, { params, headers }).pipe(
+    map(response => {
+    let data = response;
 
-    return this.http.get<{ customer_hierarchy: Customer[] }>(url, { params, headers }).pipe(
-      map(response => {
-        let data = response.customer_hierarchy || [];
-        
-        // Keep the existing filtering logic for client-side filtering if needed
-        return data.filter(customer => {
-          const matchesClientId = formValues.clientId && formValues.clientId.trim()
-            ? customer.master_client_id?.toString().toLowerCase().includes(formValues.clientId.toLowerCase())
-            : true;
+    // Keep the existing filtering logic for client-side filtering if needed
+    return data.filter(customer => {
+      const matchesClientId = formValues.clientId && formValues.clientId.trim()
+        ? customer.master_client_id?.toString().toLowerCase().includes(formValues.clientId.toLowerCase())
+        : true;
 
-          const matchesName = formValues.name && formValues.name.trim()
-            ? customer.master_client_name?.toLowerCase().includes(formValues.name.toLowerCase())
-            : true;
+      const matchesName = formValues.name && formValues.name.trim()
+        ? customer.master_client_name?.toLowerCase().includes(formValues.name.toLowerCase())
+        : true;
 
-          return matchesClientId && matchesName;
-        });
-      })
-    );
+      return matchesClientId && matchesName;
+    });
+  })
+);
+
   };
 
   /**Fetch Disabled Customer list (status=0) */

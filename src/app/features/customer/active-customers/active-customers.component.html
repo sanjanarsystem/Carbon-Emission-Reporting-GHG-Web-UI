@@ -16,8 +16,8 @@
             (click)="onDisableConfirm(dataTable.selection.selected)" [disabled]="!dataTable.selection.hasValue()">Disable
             Selected Clients</button></div>
 
-        <puro-data-table #dataTable [displayedColumns]="columns" [columnLabels]="columnLabels" [data]="customerList" [actions]="actions"
-          [isCheckbox]="true" [isactions]="true" [isSortingEnabled]="true" [isSearchEnabled]="true">
+        <puro-data-table #dataTable [displayedColumns]="columns" [columnLabels]="columnLabels" [data]="customerList" [actions]="actions" 
+          [isCheckbox]="true" [viewdetails]="viewdetails" [isActions]="true" [isDetails]="true" [isSortingEnabled]="true" [isSearchEnabled]="true" (viewClicked)="openDialog($event)">
         </puro-data-table>
 
       </mat-card-content>

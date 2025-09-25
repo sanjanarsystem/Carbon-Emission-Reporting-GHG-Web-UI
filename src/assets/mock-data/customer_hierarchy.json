@@ -1,5 +1,4 @@
-{
-"customer_hierarchy": [
+[
 	{
 		"customer_number" : "00045185  ",
 		"account_id" : "    COURIER_45185  ",
@@ -840,4 +839,4 @@
 		"create_datetime" : "2025-05-20T10:25:30.779Z",
 		"update_datetime" : "2025-05-20T10:25:30.779Z"
 	}
-]}
+]

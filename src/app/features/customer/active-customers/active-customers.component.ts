@@ -40,7 +40,8 @@ export class ActiveCustomersComponent implements OnInit, OnDestroy {
   private refreshSubscription!: Subscription;
 
   columns: string[] = ['master_client_id', 'master_client_name', 'update_datetime'];
-  actions:string[]=['edit','delete']
+  actions:string[]=['edit','delete'];
+  viewdetails: string = 'View Details';
   columnLabels: { [key: string]: string } = {
     master_client_id: 'Master Client ID',
     master_client_name: 'Master Client Name',
@@ -142,4 +143,31 @@ export class ActiveCustomersComponent implements OnInit, OnDestroy {
     console.log('Data refresh triggered for active customers');
     // The refresh will be handled by the customer form component automatically
   }
+
+
+ openDialog(row:any): void {
+    const dialogData: CommonDialogData = {
+      cancelText: 'Cancel',
+      disableClose: true,
+      hideConfirm:true,
+      width: '90vw',
+      data: [row]
+    };
+
+    const dialogRef = this.dialog.open(DialogComponent, {
+      data: dialogData,
+      width: dialogData.width,
+      disableClose: dialogData.disableClose
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+       console.log('User confirmed action:', result);
+      } else {
+         console.log('User cancelled or closed the dialog.');
+      }
+    });
+  }
+
+
 }
